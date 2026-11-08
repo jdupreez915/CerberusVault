@@ -1,0 +1,14 @@
+[
+ {
+  "date": "2026-11-08",
+  "format": "B",
+  "product": "store-profit-os",
+  "hook": "You sold it for $39.99. Here's what you keep.",
+  "files": [
+   "video.mp4",
+   "cover.jpg",
+   "pin.jpg"
+  ],
+  "made_by": "manual (chat)"
+ }
+]
