@@ -10,5 +10,17 @@
    "pin.jpg"
   ],
   "made_by": "manual (chat)"
+ },
+ {
+  "date": "2026-11-09",
+  "format": "B",
+  "product": "supplier-sourcing-system",
+  "hook": "The supplier says $3.95. Here's what one unit really costs you.",
+  "files": [
+   "video.mp4",
+   "cover.jpg",
+   "pin.jpg"
+  ],
+  "made_by": "scheduled task"
  }
 ]
