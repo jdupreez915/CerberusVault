@@ -22,5 +22,17 @@
    "pin.jpg"
   ],
   "made_by": "scheduled task"
+ },
+ {
+  "date": "2026-11-10",
+  "format": "C",
+  "product": "ad-creative-testing-system",
+  "hook": "Scale it or kill it? One ad, scored 0–100 from its funnel.",
+  "files": [
+   "video.mp4",
+   "cover.jpg",
+   "pin.jpg"
+  ],
+  "made_by": "scheduled task"
  }
 ]
