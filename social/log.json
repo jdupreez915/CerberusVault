@@ -46,5 +46,17 @@
    "pin.jpg"
   ],
   "made_by": "scheduled task"
+ },
+ {
+  "date": "2026-11-12",
+  "format": "B",
+  "product": "ecom-operating-system",
+  "hook": "$8,400 in the bank. How much can you actually spend?",
+  "files": [
+   "video.mp4",
+   "cover.jpg",
+   "pin.jpg"
+  ],
+  "made_by": "scheduled task"
  }
 ]
