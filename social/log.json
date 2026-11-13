@@ -58,5 +58,20 @@
    "pin.jpg"
   ],
   "made_by": "scheduled task"
+ },
+ {
+  "date": "2026-11-13",
+  "format": "C",
+  "product": "instagram-comment-to-dm",
+  "hook": "38 people commented “LINK?”",
+  "hook_type": "visual pattern interrupt",
+  "debate_line": "Replying by hand isn’t “personal”. It’s just slow.",
+  "trend_pattern": "DM/comment-screenshot opener (chat UI as the hook visual), from vidIQ outliers last 30 days",
+  "files": [
+   "video.mp4",
+   "cover.jpg",
+   "pin.jpg"
+  ],
+  "made_by": "scheduled task"
  }
 ]
