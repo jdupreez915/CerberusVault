@@ -73,5 +73,20 @@
    "pin.jpg"
   ],
   "made_by": "scheduled task"
+ },
+ {
+  "date": "2026-11-14",
+  "format": "A",
+  "product": "ad-creative-testing-system",
+  "hook": "Stop killing ads on ROAS alone.",
+  "hook_type": "contrarian/myth-bust",
+  "debate_line": "Bad ROAS ≠ bad ad. Often it’s your product page.",
+  "trend_pattern": "faceless motion-graphic 'flaw in a common process' data viz + verdict/tier labels, from vidIQ outliers last 30 days",
+  "files": [
+   "video.mp4",
+   "cover.jpg",
+   "pin.jpg"
+  ],
+  "made_by": "scheduled task"
  }
 ]
