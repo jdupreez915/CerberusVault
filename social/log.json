@@ -88,5 +88,20 @@
    "pin.jpg"
   ],
   "made_by": "scheduled task"
+ },
+ {
+  "date": "2026-11-15",
+  "format": "B",
+  "product": "influencer-ugc-crm",
+  "hook": "$350 creator. 26 orders. REBOOK.",
+  "hook_type": "answer-first/curiosity",
+  "debate_line": "Followers aren't customers. Code uses are.",
+  "trend_pattern": "'big following, zero sales' influencer-reality hook + 'which got more sales?' views-vs-sales comparison, from vidIQ outliers last 30 days",
+  "files": [
+   "video.mp4",
+   "cover.jpg",
+   "pin.jpg"
+  ],
+  "made_by": "scheduled task"
  }
 ]
