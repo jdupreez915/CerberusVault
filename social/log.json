@@ -103,5 +103,20 @@
    "pin.jpg"
   ],
   "made_by": "scheduled task"
+ },
+ {
+  "date": "2026-11-16",
+  "format": "C",
+  "product": "supplier-sourcing-system",
+  "hook": "Stop picking the cheapest supplier.",
+  "hook_type": "contrarian/myth-bust",
+  "debate_line": "Saving $1 a unit isn't worth a grade-D supplier.",
+  "trend_pattern": "supplier tier-list ranking (Skip → Top-tier) + supplier-relationship 'pennies vs reliability' tension, from vidIQ outliers last 30 days",
+  "files": [
+   "video.mp4",
+   "cover.jpg",
+   "pin.jpg"
+  ],
+  "made_by": "scheduled task"
  }
 ]
