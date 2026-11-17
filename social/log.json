@@ -118,5 +118,20 @@
    "pin.jpg"
   ],
   "made_by": "scheduled task"
+ },
+ {
+  "date": "2026-11-17",
+  "format": "A",
+  "product": "store-profit-os",
+  "hook": "Running ads at 1.6 ROAS?",
+  "hook_type": "identity call-out",
+  "debate_line": "There's no “good ROAS”. Only yours.",
+  "trend_pattern": "number-led 'problem → here's why' hook + faceless data-viz lanes showing the flaw in a common metric, from vidIQ outliers last 30 days",
+  "files": [
+   "video.mp4",
+   "cover.jpg",
+   "pin.jpg"
+  ],
+  "made_by": "scheduled task"
  }
 ]
