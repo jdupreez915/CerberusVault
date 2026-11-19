@@ -5,16 +5,16 @@ import {Logo} from './components/Logo';
 
 const PIN = {
   example: true,
-  title: ['1,000 saw the ad.', '[3 bought.]'],
-  sub: 'Where the other 997 went (example funnel)',
+  title: ['Your bank balance', 'isn’t your [budget].'],
+  sub: '13-week cash forecast (example store)',
   rows: [
-    {label: 'HOOK · past 3 s', value: '210  (−790)', note: 'the leak: 79% gone in 3 seconds', good: false},
-    {label: 'BODY · watched half', value: '95  (−115)', note: 'hold looks fine', good: true},
-    {label: 'CLICK · link clicks', value: '18  (−77)', note: 'click-through looks fine', good: true},
-    {label: 'BUY · purchases', value: '3  (−15)', note: '1 in 6 clickers bought', good: true},
+    {label: 'Weeks 1–6 · +$500 a week', value: '$10,700', note: 'looks safe from the bank app', good: true},
+    {label: 'Week 7 · stock reorder', value: '−$1,240', note: '$12,440 reorder lands in one week', good: false},
+    {label: 'Weeks 8–9 · still below $0', value: '−$240', note: 'ads, refunds and fees keep going out', good: false},
+    {label: 'Fix · split the reorder', value: 'W7 + W10', note: '$6,220 each, same stock', good: true},
   ],
-  box: {kicker: 'VERDICT', value: 'ITERATE', right: 'new hook,\nkeep the rest'},
-  footer: 'Ad Creative Testing System · example figures',
+  box: {kicker: 'LOWEST WEEK AFTER THE SPLIT', value: '+$260', right: 'never below $0\nsee it 6 weeks early'},
+  footer: 'Ecom Operating System · example figures',
 };
 
 const red = (s: string) => s.split(/(\[[^\]]+\])/).map((p, i) => p.startsWith('[') ? <span key={i} style={{color: C.red}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>);
