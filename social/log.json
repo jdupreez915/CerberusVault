@@ -1,185 +1,199 @@
 [
- {
-  "date": "2026-11-08",
-  "format": "B",
-  "product": "store-profit-os",
-  "hook": "You sold it for $39.99. Here's what you keep.",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "manual (chat)"
- },
- {
-  "date": "2026-11-09",
-  "format": "B",
-  "product": "supplier-sourcing-system",
-  "hook": "The supplier says $3.95. Here's what one unit really costs you.",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "scheduled task"
- },
- {
-  "date": "2026-11-10",
-  "format": "C",
-  "product": "ad-creative-testing-system",
-  "hook": "Scale it or kill it? One ad, scored 0–100 from its funnel.",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "scheduled task"
- },
- {
-  "date": "2026-11-11",
-  "format": "A",
-  "product": "influencer-ugc-crm",
-  "hook": "20 creators to chase. 3 ways to track it.",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "scheduled task"
- },
- {
-  "date": "2026-11-12",
-  "format": "B",
-  "product": "ecom-operating-system",
-  "hook": "$8,400 in the bank. How much can you actually spend?",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "scheduled task"
- },
- {
-  "date": "2026-11-13",
-  "format": "C",
-  "product": "instagram-comment-to-dm",
-  "hook": "38 people commented “LINK?”",
-  "hook_type": "visual pattern interrupt",
-  "debate_line": "Replying by hand isn’t “personal”. It’s just slow.",
-  "trend_pattern": "DM/comment-screenshot opener (chat UI as the hook visual), from vidIQ outliers last 30 days",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "scheduled task"
- },
- {
-  "date": "2026-11-14",
-  "format": "A",
-  "product": "ad-creative-testing-system",
-  "hook": "Stop killing ads on ROAS alone.",
-  "hook_type": "contrarian/myth-bust",
-  "debate_line": "Bad ROAS ≠ bad ad. Often it’s your product page.",
-  "trend_pattern": "faceless motion-graphic 'flaw in a common process' data viz + verdict/tier labels, from vidIQ outliers last 30 days",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "scheduled task"
- },
- {
-  "date": "2026-11-15",
-  "format": "B",
-  "product": "influencer-ugc-crm",
-  "hook": "$350 creator. 26 orders. REBOOK.",
-  "hook_type": "answer-first/curiosity",
-  "debate_line": "Followers aren't customers. Code uses are.",
-  "trend_pattern": "'big following, zero sales' influencer-reality hook + 'which got more sales?' views-vs-sales comparison, from vidIQ outliers last 30 days",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "scheduled task"
- },
- {
-  "date": "2026-11-16",
-  "format": "C",
-  "product": "supplier-sourcing-system",
-  "hook": "Stop picking the cheapest supplier.",
-  "hook_type": "contrarian/myth-bust",
-  "debate_line": "Saving $1 a unit isn't worth a grade-D supplier.",
-  "trend_pattern": "supplier tier-list ranking (Skip → Top-tier) + supplier-relationship 'pennies vs reliability' tension, from vidIQ outliers last 30 days",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "scheduled task"
- },
- {
-  "date": "2026-11-17",
-  "format": "A",
-  "product": "store-profit-os",
-  "hook": "Running ads at 1.6 ROAS?",
-  "hook_type": "identity call-out",
-  "debate_line": "There's no “good ROAS”. Only yours.",
-  "trend_pattern": "number-led 'problem → here's why' hook + faceless data-viz lanes showing the flaw in a common metric, from vidIQ outliers last 30 days",
-  "files": [
-   "video.mp4",
-   "cover.jpg",
-   "pin.jpg"
-  ],
-  "made_by": "scheduled task"
- },
- {
-  "date": "2026-11-18",
-  "format": "B",
-  "product": "ad-creative-testing-system",
-  "hook": "1,000 saw your ad. 3 bought.",
-  "hook_type": "answer-first/curiosity",
-  "debate_line": "Most “bad ads” don’t fail at the click. They fail in second one.",
-  "trend_pattern": "vidIQ outliers (last 30 days): specific-number problem hook ('3 sales yesterday, zero today. here's why') + faceless data-viz breakdown of where budget/people go (bar charts)",
-  "strategy": {
-   "pain": "Ad gets few sales and owners blame targeting/CTR or kill it, without seeing which funnel stage leaks",
-   "hooks": {
-    "identity": "Running ads that get 3 sales per 1,000?",
-    "answer-first/curiosity": "1,000 saw your ad. 3 bought.",
-    "contrarian": "Your ad doesn't have a CTR problem.",
-    "visual": "Big 997 counter: where did they go?"
-   },
-   "3d": "Bars3D funnel bars per stage (hook bar turns red), Drifters, PayoffRing behind 79%"
+  {
+    "date": "2026-11-08",
+    "format": "B",
+    "product": "store-profit-os",
+    "hook": "You sold it for $39.99. Here's what you keep.",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "manual (chat)"
   },
-  "files": [
-   "social/2026-11-18/video.mp4",
-   "social/2026-11-18/cover.jpg",
-   "social/2026-11-18/pin.jpg"
-  ]
- },
- {
-  "date": "2026-11-19",
-  "format": "C",
-  "product": "ecom-operating-system",
-  "hook": "Your bank balance isn’t your budget.",
-  "hook_type": "contrarian/myth-bust",
-  "debate_line": "Profitable stores still go broke. They never saw week 7.",
-  "trend_pattern": "vidIQ outliers (last 30 days): 'X isn't the reason your store isn't growing' contrarian opener + software/tool demo walk-through with zoom-ins on the key screen",
-  "strategy": {
-   "pain": "Owners decide spend from today's bank balance and get caught by a big stock reorder weeks later (profit is not cash)",
-   "hooks": {
-    "identity": "Shopify owners checking the bank app daily:",
-    "answer-first/curiosity": "Week 7: cash hits −$1,240.",
-    "contrarian": "Your bank balance isn’t your budget.",
-    "visual": "13 cash bars. One drops through the floor."
-   },
-   "3d": "Vertical 3D cash columns for 13 weeks (week 7 turns red, morphs green after the split), Drifters, PayoffRing behind +$260"
+  {
+    "date": "2026-11-09",
+    "format": "B",
+    "product": "supplier-sourcing-system",
+    "hook": "The supplier says $3.95. Here's what one unit really costs you.",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "scheduled task"
   },
-  "files": [
-   "social/2026-11-19/video.mp4",
-   "social/2026-11-19/cover.jpg",
-   "social/2026-11-19/pin.jpg"
-  ]
- }
+  {
+    "date": "2026-11-10",
+    "format": "C",
+    "product": "ad-creative-testing-system",
+    "hook": "Scale it or kill it? One ad, scored 0–100 from its funnel.",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "scheduled task"
+  },
+  {
+    "date": "2026-11-11",
+    "format": "A",
+    "product": "influencer-ugc-crm",
+    "hook": "20 creators to chase. 3 ways to track it.",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "scheduled task"
+  },
+  {
+    "date": "2026-11-12",
+    "format": "B",
+    "product": "ecom-operating-system",
+    "hook": "$8,400 in the bank. How much can you actually spend?",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "scheduled task"
+  },
+  {
+    "date": "2026-11-13",
+    "format": "C",
+    "product": "instagram-comment-to-dm",
+    "hook": "38 people commented “LINK?”",
+    "hook_type": "visual pattern interrupt",
+    "debate_line": "Replying by hand isn’t “personal”. It’s just slow.",
+    "trend_pattern": "DM/comment-screenshot opener (chat UI as the hook visual), from vidIQ outliers last 30 days",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "scheduled task"
+  },
+  {
+    "date": "2026-11-14",
+    "format": "A",
+    "product": "ad-creative-testing-system",
+    "hook": "Stop killing ads on ROAS alone.",
+    "hook_type": "contrarian/myth-bust",
+    "debate_line": "Bad ROAS ≠ bad ad. Often it’s your product page.",
+    "trend_pattern": "faceless motion-graphic 'flaw in a common process' data viz + verdict/tier labels, from vidIQ outliers last 30 days",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "scheduled task"
+  },
+  {
+    "date": "2026-11-15",
+    "format": "B",
+    "product": "influencer-ugc-crm",
+    "hook": "$350 creator. 26 orders. REBOOK.",
+    "hook_type": "answer-first/curiosity",
+    "debate_line": "Followers aren't customers. Code uses are.",
+    "trend_pattern": "'big following, zero sales' influencer-reality hook + 'which got more sales?' views-vs-sales comparison, from vidIQ outliers last 30 days",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "scheduled task"
+  },
+  {
+    "date": "2026-11-16",
+    "format": "C",
+    "product": "supplier-sourcing-system",
+    "hook": "Stop picking the cheapest supplier.",
+    "hook_type": "contrarian/myth-bust",
+    "debate_line": "Saving $1 a unit isn't worth a grade-D supplier.",
+    "trend_pattern": "supplier tier-list ranking (Skip → Top-tier) + supplier-relationship 'pennies vs reliability' tension, from vidIQ outliers last 30 days",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "scheduled task"
+  },
+  {
+    "date": "2026-11-17",
+    "format": "A",
+    "product": "store-profit-os",
+    "hook": "Running ads at 1.6 ROAS?",
+    "hook_type": "identity call-out",
+    "debate_line": "There's no “good ROAS”. Only yours.",
+    "trend_pattern": "number-led 'problem → here's why' hook + faceless data-viz lanes showing the flaw in a common metric, from vidIQ outliers last 30 days",
+    "files": [
+      "video.mp4",
+      "cover.jpg",
+      "pin.jpg"
+    ],
+    "made_by": "scheduled task"
+  },
+  {
+    "date": "2026-11-18",
+    "format": "B",
+    "product": "ad-creative-testing-system",
+    "hook": "1,000 saw your ad. 3 bought.",
+    "hook_type": "answer-first/curiosity",
+    "debate_line": "Most “bad ads” don’t fail at the click. They fail in second one.",
+    "trend_pattern": "vidIQ outliers (last 30 days): specific-number problem hook ('3 sales yesterday, zero today. here's why') + faceless data-viz breakdown of where budget/people go (bar charts)",
+    "strategy": {
+      "pain": "Ad gets few sales and owners blame targeting/CTR or kill it, without seeing which funnel stage leaks",
+      "hooks": {
+        "identity": "Running ads that get 3 sales per 1,000?",
+        "answer-first/curiosity": "1,000 saw your ad. 3 bought.",
+        "contrarian": "Your ad doesn't have a CTR problem.",
+        "visual": "Big 997 counter: where did they go?"
+      },
+      "3d": "Bars3D funnel bars per stage (hook bar turns red), Drifters, PayoffRing behind 79%"
+    },
+    "files": [
+      "social/2026-11-18/video.mp4",
+      "social/2026-11-18/cover.jpg",
+      "social/2026-11-18/pin.jpg"
+    ]
+  },
+  {
+    "date": "2026-11-19",
+    "format": "C",
+    "product": "ecom-operating-system",
+    "hook": "Your bank balance isn’t your budget.",
+    "hook_type": "contrarian/myth-bust",
+    "debate_line": "Profitable stores still go broke. They never saw week 7.",
+    "trend_pattern": "vidIQ outliers (last 30 days): 'X isn't the reason your store isn't growing' contrarian opener + software/tool demo walk-through with zoom-ins on the key screen",
+    "strategy": {
+      "pain": "Owners decide spend from today's bank balance and get caught by a big stock reorder weeks later (profit is not cash)",
+      "hooks": {
+        "identity": "Shopify owners checking the bank app daily:",
+        "answer-first/curiosity": "Week 7: cash hits −$1,240.",
+        "contrarian": "Your bank balance isn’t your budget.",
+        "visual": "13 cash bars. One drops through the floor."
+      },
+      "3d": "Vertical 3D cash columns for 13 weeks (week 7 turns red, morphs green after the split), Drifters, PayoffRing behind +$260"
+    },
+    "files": [
+      "social/2026-11-19/video.mp4",
+      "social/2026-11-19/cover.jpg",
+      "social/2026-11-19/pin.jpg"
+    ]
+  },
+  {
+    "date": "2026-11-20",
+    "format": "A",
+    "product": "ecom-command-center",
+    "hook": "$4,200 in sales. Profit: ???",
+    "hook_type": "visual pattern interrupt",
+    "debate_line": "Revenue screenshots are vanity metrics.",
+    "trend_pattern": "vidIQ outliers (last 30 days): order-notification feed / revenue number shown first, then reframed (e.g. '3 sales yesterday, zero today'); borrowed as stacking order pings + PROFIT? stamp",
+    "files": [
+      "social/2026-11-20/video.mp4",
+      "social/2026-11-20/cover.jpg",
+      "social/2026-11-20/pin.jpg"
+    ]
+  }
 ]

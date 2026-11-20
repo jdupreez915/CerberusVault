@@ -5,16 +5,16 @@ import {Logo} from './components/Logo';
 
 const PIN = {
   example: true,
-  title: ['Your bank balance', 'isn’t your [budget].'],
-  sub: '13-week cash forecast (example store)',
+  title: ['$4,200 in sales.', 'Profit: [???]'],
+  sub: 'Same week, three checks (example store)',
   rows: [
-    {label: 'Weeks 1–6 · +$500 a week', value: '$10,700', note: 'looks safe from the bank app', good: true},
-    {label: 'Week 7 · stock reorder', value: '−$1,240', note: '$12,440 reorder lands in one week', good: false},
-    {label: 'Weeks 8–9 · still below $0', value: '−$240', note: 'ads, refunds and fees keep going out', good: false},
-    {label: 'Fix · split the reorder', value: 'W7 + W10', note: '$6,220 each, same stock', good: true},
+    {label: 'Checks sales', value: '$4,200', note: 'feels great, says nothing about profit', good: false},
+    {label: 'Checks ROAS', value: '2.1', note: 'good or bad? no break-even to compare', good: false},
+    {label: 'Break-even ROAS', value: '1.82', note: '$4,200 ÷ ($4,200 − $1,650 stock − $240 fees)', good: true},
+    {label: 'Checks profit + cash', value: '+$310', note: 'what the week left · 11 weeks of runway', good: true},
   ],
-  box: {kicker: 'LOWEST WEEK AFTER THE SPLIT', value: '+$260', right: 'never below $0\nsee it 6 weeks early'},
-  footer: 'Ecom Operating System · example figures',
+  box: {kicker: 'WHAT $4,200 IN SALES LEFT', value: '+$310', right: 'after stock, ads\nand fees'},
+  footer: 'Ecom Command Center · example figures',
 };
 
 const red = (s: string) => s.split(/(\[[^\]]+\])/).map((p, i) => p.startsWith('[') ? <span key={i} style={{color: C.red}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>);
