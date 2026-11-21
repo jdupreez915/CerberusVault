@@ -5,16 +5,16 @@ import {Logo} from './components/Logo';
 
 const PIN = {
   example: true,
-  title: ['$4,200 in sales.', 'Profit: [???]'],
-  sub: 'Same week, three checks (example store)',
+  title: ['120 comments', '= [80 minutes]'],
+  sub: 'Replying “LINK” comments by hand (example)',
   rows: [
-    {label: 'Checks sales', value: '$4,200', note: 'feels great, says nothing about profit', good: false},
-    {label: 'Checks ROAS', value: '2.1', note: 'good or bad? no break-even to compare', good: false},
-    {label: 'Break-even ROAS', value: '1.82', note: '$4,200 ÷ ($4,200 − $1,650 stock − $240 fees)', good: true},
-    {label: 'Checks profit + cash', value: '+$310', note: 'what the week left · 11 weeks of runway', good: true},
+    {label: 'Open the comment + copy link', value: '10 s', note: 'find it, copy your product link', good: false},
+    {label: 'Open their DMs + type', value: '20 s', note: 'new chat, paste, write a line', good: false},
+    {label: 'Log the lead', value: '10 s', note: 'or forget to, and lose track of them', good: false},
+    {label: 'Automation', value: '0 s', note: 'comment “LINK” → DM with link → lead in your Sheet', good: true},
   ],
-  box: {kicker: 'WHAT $4,200 IN SALES LEFT', value: '+$310', right: 'after stock, ads\nand fees'},
-  footer: 'Ecom Command Center · example figures',
+  box: {kicker: '40 S × 120 COMMENTS', value: '80 min', right: 'of copy-paste\nfor one reel'},
+  footer: 'Instagram Comment-to-DM Automation · example figures',
 };
 
 const red = (s: string) => s.split(/(\[[^\]]+\])/).map((p, i) => p.startsWith('[') ? <span key={i} style={{color: C.red}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>);
@@ -39,7 +39,7 @@ export const Pin: React.FC = () => (
     </div>
     <div style={{position: 'absolute', left: 60, right: 60, bottom: 60, borderTop: `2px solid ${C.line}`, paddingTop: 28, display: 'flex', alignItems: 'center', gap: 22}}>
       <Logo width={84} />
-      <div><div style={{fontSize: 32, fontWeight: 800}}>{PIN.footer}</div><div style={{fontSize: 28, fontWeight: 600, color: '#b9b0aa', marginTop: 4}}>cerberusvault.gumroad.com</div></div>
+      <div><div style={{fontSize: 28, fontWeight: 800}}>{PIN.footer}</div><div style={{fontSize: 28, fontWeight: 600, color: '#b9b0aa', marginTop: 4}}>cerberusvault.gumroad.com</div></div>
     </div>
   </AbsoluteFill>
 );

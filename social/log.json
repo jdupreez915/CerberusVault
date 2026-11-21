@@ -195,5 +195,19 @@
       "social/2026-11-20/cover.jpg",
       "social/2026-11-20/pin.jpg"
     ]
+  },
+  {
+    "date": "2026-11-21",
+    "format": "B",
+    "product": "instagram-comment-to-dm",
+    "hook": "120 “LINK” comments = 80 min of copy-paste.",
+    "hook_type": "answer-first/curiosity",
+    "debate_line": "“Comment LINK” posts aren’t cringe. Slow replies are.",
+    "trend_pattern": "trend check skipped (vidIQ out of credits); reused proven comment-flood/chat-UI opener + step-by-step time maths",
+    "files": [
+      "social/2026-11-21/video.mp4",
+      "social/2026-11-21/cover.jpg",
+      "social/2026-11-21/pin.jpg"
+    ]
   }
 ]
