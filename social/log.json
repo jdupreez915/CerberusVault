@@ -209,5 +209,20 @@
       "social/2026-11-21/cover.jpg",
       "social/2026-11-21/pin.jpg"
     ]
+  },
+  {
+    "date": "2026-11-22",
+    "format": "C",
+    "product": "influencer-ugc-crm",
+    "hook": "Creators didn’t ghost you. You forgot.",
+    "hook_type": "contrarian/myth-bust",
+    "debate_line": "No reply to one DM isn’t a “no”. It’s a missing follow-up.",
+    "trend_pattern": "trend check skipped (vidIQ 0 credits until 8 Dec); reused proven stale-DM/chat-UI opener + tool demo with zoom-in on the key row",
+    "three_d": "Drifters (low-poly icosahedrons) throughout + spinning green PayoffRing behind the REBOOK deal card",
+    "files": [
+      "social/2026-11-22/video.mp4",
+      "social/2026-11-22/cover.jpg",
+      "social/2026-11-22/pin.jpg"
+    ]
   }
 ]

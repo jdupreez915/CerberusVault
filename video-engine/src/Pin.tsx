@@ -5,16 +5,16 @@ import {Logo} from './components/Logo';
 
 const PIN = {
   example: true,
-  title: ['120 comments', '= [80 minutes]'],
-  sub: 'Replying “LINK” comments by hand (example)',
+  title: ['Creators didn’t', '[ghost] you.'],
+  sub: 'A follow-up queue that puts overdue creators first',
   rows: [
-    {label: 'Open the comment + copy link', value: '10 s', note: 'find it, copy your product link', good: false},
-    {label: 'Open their DMs + type', value: '20 s', note: 'new chat, paste, write a line', good: false},
-    {label: 'Log the lead', value: '10 s', note: 'or forget to, and lose track of them', good: false},
-    {label: 'Automation', value: '0 s', note: 'comment “LINK” → DM with link → lead in your Sheet', good: true},
+    {label: '@mia.makes · OVERDUE 4d', value: '#1', note: 'sample delivered, no follow-up sent', good: false},
+    {label: '@dan.fits · OVERDUE 2d', value: '#2', note: 'asked for the brief, still waiting on you', good: false},
+    {label: '@lena.home · DUE TODAY', value: '#3', note: 'posted: check her code’s orders', good: false},
+    {label: 'Template ready', value: '1 tap', note: '10 templates + message builder, next date set', good: true},
   ],
-  box: {kicker: '40 S × 120 COMMENTS', value: '80 min', right: 'of copy-paste\nfor one reel'},
-  footer: 'Instagram Comment-to-DM Automation · example figures',
+  box: {kicker: 'EXAMPLE DEAL · CODE MIA15', value: '26 orders', right: '3.07× ROAS\nverdict: REBOOK'},
+  footer: 'Influencer & UGC Outreach CRM · example figures',
 };
 
 const red = (s: string) => s.split(/(\[[^\]]+\])/).map((p, i) => p.startsWith('[') ? <span key={i} style={{color: C.red}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>);
@@ -34,7 +34,7 @@ export const Pin: React.FC = () => (
     ))}
     <div style={{position: 'absolute', left: 60, top: 1015, width: 880, height: 240, borderRadius: 28, background: C.white, color: C.bg, padding: '34px 40px'}}>
       <div style={{fontSize: 34, fontWeight: 800, letterSpacing: 3, color: '#5c5552'}}>{PIN.box.kicker}</div>
-      <div style={{fontSize: 120, fontWeight: 900, letterSpacing: -4, lineHeight: 1.05}}>{PIN.box.value}</div>
+      <div style={{fontSize: 100, fontWeight: 900, letterSpacing: -4, lineHeight: 1.05}}>{PIN.box.value}</div>
       <div style={{position: 'absolute', right: 40, top: 96, fontSize: 34, fontWeight: 700, textAlign: 'right', color: '#5c5552', lineHeight: 1.3, whiteSpace: 'pre-line'}}>{PIN.box.right}</div>
     </div>
     <div style={{position: 'absolute', left: 60, right: 60, bottom: 60, borderTop: `2px solid ${C.line}`, paddingTop: 28, display: 'flex', alignItems: 'center', gap: 22}}>
