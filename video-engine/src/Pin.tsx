@@ -5,16 +5,16 @@ import {Logo} from './components/Logo';
 
 const PIN = {
   example: true,
-  title: ['Creators didn’t', '[ghost] you.'],
-  sub: 'A follow-up queue that puts overdue creators first',
+  title: ['When do you', '[reorder?]'],
+  sub: 'Same product, 10 sold a day, supplier takes 18 days',
   rows: [
-    {label: '@mia.makes · OVERDUE 4d', value: '#1', note: 'sample delivered, no follow-up sent', good: false},
-    {label: '@dan.fits · OVERDUE 2d', value: '#2', note: 'asked for the brief, still waiting on you', good: false},
-    {label: '@lena.home · DUE TODAY', value: '#3', note: 'posted: check her code’s orders', good: false},
-    {label: 'Template ready', value: '1 tap', note: '10 templates + message builder, next date set', good: true},
+    {label: 'Reorder at 0 units', value: '18 days out', note: 'you wait out the whole supplier lead time', good: false},
+    {label: 'Reorder on gut feel', value: '6 days out', note: '“still looks like plenty” · it wasn’t', good: false},
+    {label: 'Reorder on stock alert', value: '0 days out', note: 'flagged while days left > lead time', good: true},
+    {label: 'The rule', value: '≤ 18 days', note: 'reorder when days of stock left ≤ supplier lead time', good: true},
   ],
-  box: {kicker: 'EXAMPLE DEAL · CODE MIA15', value: '26 orders', right: '3.07× ROAS\nverdict: REBOOK'},
-  footer: 'Influencer & UGC Outreach CRM · example figures',
+  box: {kicker: 'DAYS OF STOCK LEFT', value: '14 days', right: '140 units ÷ 10/day\nsupplier: 18 → reorder now'},
+  footer: 'Ecom Operating System · example figures',
 };
 
 const red = (s: string) => s.split(/(\[[^\]]+\])/).map((p, i) => p.startsWith('[') ? <span key={i} style={{color: C.red}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>);
@@ -28,7 +28,7 @@ export const Pin: React.FC = () => (
       <div key={i} style={{position: 'absolute', left: 60, top: 425 + i * 140, width: 880, height: 124, borderRadius: 24, padding: '18px 30px',
         border: `3px solid ${r.good ? C.line : C.red}`, background: r.good ? C.panel : '#1f1112', boxShadow: r.good ? 'none' : '0 0 50px rgba(229,56,59,.4)'}}>
         <div style={{fontSize: 42, fontWeight: 900}}>{r.label}</div>
-        <div style={{position: 'absolute', right: 30, top: 20, fontSize: 42, fontWeight: 800, color: r.good ? C.white : C.red}}>{r.value}</div>
+        <div style={{position: 'absolute', right: 30, top: 20, fontSize: 42, fontWeight: 800, color: r.good ? C.green : C.red}}>{r.value}</div>
         <div style={{fontSize: 26, fontWeight: 700, color: C.muted, marginTop: 4}}>{r.note}</div>
       </div>
     ))}

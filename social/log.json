@@ -224,5 +224,20 @@
       "social/2026-11-22/cover.jpg",
       "social/2026-11-22/pin.jpg"
     ]
+  },
+  {
+    "date": "2026-11-23",
+    "format": "A",
+    "product": "ecom-operating-system",
+    "hook": "Store owners: when do you reorder?",
+    "hook_type": "identity call-out",
+    "debate_line": "“Sold out” isn’t a flex. It’s orders you lost.",
+    "trend_pattern": "trend check skipped (vidIQ 0 credits until 8 Dec); reused proven ticking-counter + stamp opener and three-lane comparison",
+    "three_d": "Bars3D growing 3D bars in the lanes + Drifters + spinning green PayoffRing behind '14 days'",
+    "files": [
+      "social/2026-11-23/video.mp4",
+      "social/2026-11-23/cover.jpg",
+      "social/2026-11-23/pin.jpg"
+    ]
   }
 ]
