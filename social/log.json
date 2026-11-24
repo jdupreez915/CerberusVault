@@ -239,5 +239,19 @@
       "social/2026-11-23/cover.jpg",
       "social/2026-11-23/pin.jpg"
     ]
+  },
+  {
+    "date": "2026-11-24",
+    "format": "B",
+    "product": "store-profit-os",
+    "hook": "$50 a day on ads? You need 3 sales.",
+    "hook_type": "answer-first/curiosity",
+    "debate_line": "Your first 2 sales a day pay Meta. Not you.",
+    "trend_pattern": "trend check skipped (vidIQ 0 credits until 8 Dec); reused proven ticking-counter opener (ad spend meter) + step-by-step maths breakdown with 3D bars",
+    "files": [
+      "social/2026-11-24/video.mp4",
+      "social/2026-11-24/cover.jpg",
+      "social/2026-11-24/pin.jpg"
+    ]
   }
 ]

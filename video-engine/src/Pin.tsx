@@ -5,16 +5,16 @@ import {Logo} from './components/Logo';
 
 const PIN = {
   example: true,
-  title: ['When do you', '[reorder?]'],
-  sub: 'Same product, 10 sold a day, supplier takes 18 days',
+  title: ['$50 a day on ads?', 'You need [3 sales].'],
+  sub: 'Break-even sales per day, for one $39.99 product',
   rows: [
-    {label: 'Reorder at 0 units', value: '18 days out', note: 'you wait out the whole supplier lead time', good: false},
-    {label: 'Reorder on gut feel', value: '6 days out', note: '“still looks like plenty” · it wasn’t', good: false},
-    {label: 'Reorder on stock alert', value: '0 days out', note: 'flagged while days left > lead time', good: true},
-    {label: 'The rule', value: '≤ 18 days', note: 'reorder when days of stock left ≤ supplier lead time', good: true},
+    {label: 'Kept per sale (before ads)', value: '$24.13', note: '$39.99 − $12.70 product/ship − $2.66 fees − $0.50 other', good: true},
+    {label: 'Ad spend per day', value: '$50.00', note: '$50 ÷ $24.13 = 2.07 sales to break even', good: false},
+    {label: '2 sales a day', value: '−$1.74', note: 'busy day, still paying to run the store', good: false},
+    {label: '3 sales a day', value: '+$22.39', note: 'sale #3 is your first profit', good: true},
   ],
-  box: {kicker: 'DAYS OF STOCK LEFT', value: '14 days', right: '140 units ÷ 10/day\nsupplier: 18 → reorder now'},
-  footer: 'Ecom Operating System · example figures',
+  box: {kicker: 'BREAK-EVEN SALES / DAY', value: '2.07', right: 'ad spend ÷ kept per sale\nround up → 3'},
+  footer: 'Store Profit OS · example figures',
 };
 
 const red = (s: string) => s.split(/(\[[^\]]+\])/).map((p, i) => p.startsWith('[') ? <span key={i} style={{color: C.red}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>);
