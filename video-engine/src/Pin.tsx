@@ -5,16 +5,16 @@ import {Logo} from './components/Logo';
 
 const PIN = {
   example: true,
-  title: ['$50 a day on ads?', 'You need [3 sales].'],
-  sub: 'Break-even sales per day, for one $39.99 product',
+  title: ['Most clicks ≠', 'your [best ad].'],
+  sub: 'Two ads, scored 0–100 on the whole funnel',
   rows: [
-    {label: 'Kept per sale (before ads)', value: '$24.13', note: '$39.99 − $12.70 product/ship − $2.66 fees − $0.50 other', good: true},
-    {label: 'Ad spend per day', value: '$50.00', note: '$50 ÷ $24.13 = 2.07 sales to break even', good: false},
-    {label: '2 sales a day', value: '−$1.74', note: 'busy day, still paying to run the store', good: false},
-    {label: '3 sales a day', value: '+$22.39', note: 'sale #3 is your first profit', good: true},
+    {label: 'Ad A · funny skit', value: '41 · ITERATE', note: 'CTR 3.8% · conversion 0.6% → 2.3 sales per 10k views', good: false},
+    {label: 'Ad B · plain demo', value: '84 · SCALE', note: 'CTR 1.4% · conversion 4.1% → 5.7 sales per 10k views', good: true},
+    {label: 'Funnel check', value: '4 stages', note: 'hook → body → click → conversion, each scored', good: true},
+    {label: 'Fix on Ad A', value: 'after the click', note: 'landing page + offer match, not the hook', good: false},
   ],
-  box: {kicker: 'BREAK-EVEN SALES / DAY', value: '2.07', right: 'ad spend ÷ kept per sale\nround up → 3'},
-  footer: 'Store Profit OS · example figures',
+  box: {kicker: 'SALES PER 10,000 VIEWS', value: '5.7 vs 2.3', right: 'CTR × conversion\nscore the whole funnel'},
+  footer: 'Ad Creative Testing System · example figures',
 };
 
 const red = (s: string) => s.split(/(\[[^\]]+\])/).map((p, i) => p.startsWith('[') ? <span key={i} style={{color: C.red}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>);
