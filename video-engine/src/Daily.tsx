@@ -1,9 +1,10 @@
 /**
- * DAILY VIDEO — 2026-11-25 · format C (product demo) · Ad Creative Testing System.
- * Idea: the ad with the most clicks isn't the winner. Ad A (funny skit, CTR 3.8%, conversion 0.6%) scores 41 → ITERATE;
- *       Ad B (plain demo, CTR 1.4%, conversion 4.1%) scores 84 → SCALE. Sales per 10,000 views: A 2.3 vs B 5.7 (example figures).
- * Timeline (s): 0 hook + two ad cards · 2.5 Ad A punch-in · 3.0–4.6 funnel rows + 3D bars · 5.5 3D gauge → 41 ITERATE
- *               · 7.5 colour flip, Ad B → 84 SCALE · 9.6 debate bubble · 11.6 payoff (3D ring) · 13.0 end card · 15.5 end.
+ * DAILY VIDEO — 2026-11-26 · format A (three rows) · Supplier Sourcing System.
+ * Idea: a $4.20 supplier quote isn't your unit cost. Same supplier, three ways to count cost (example figures):
+ *       quote only $4.20 (✗ $2.44 missing), quote + shipping $5.55 (✗ $1.09 missing), full landed $6.64 (✓).
+ *       Landed = 4.20 product + 1.35 shipping + 0.48 duty + 0.40 fees + 0.21 payment fee = $6.64 (+58% vs quote).
+ * Timeline (s): 0 hook + quote card · 0.35 red slash · 1.2 "real cost?" tag · 2.6 lanes · 2.9 bars grow (3D) · 5.3 results
+ *               · 6.8 punch-in + badge · 8.2 debate bubble · 10.4 payoff ($6.64, 3D ring) · 12.6 end card · 15.0 end.
  */
 import {AbsoluteFill, useCurrentFrame, useVideoConfig} from 'remotion';
 import {C, FONT} from './brand';
@@ -15,167 +16,112 @@ import {ExampleLabel} from './components/ExampleLabel';
 import {Canvas3D, Bars3D, Drifters, PayoffRing, type Lane3D} from './components/Lanes3D';
 import {backOut, clamp, easeOut} from './components/anim';
 
-export const DAILY_SECONDS = 15.5;
+export const DAILY_SECONDS = 15;
 
 // ---------------- CONFIG (edit per day) ----------------
 const CONFIG = {
-  hook: ['Your [highest-CTR]', 'ad isn’t your', 'winner.'],
-  ads: [
-    {id: 'A', name: 'Funny skit', ctr: '3.8%', conv: '0.6%', score: 41, verdict: 'ITERATE', why: 'clicks fine. buyers don’t.'},
-    {id: 'B', name: 'Plain demo', ctr: '1.4%', conv: '4.1%', score: 84, verdict: 'SCALE', why: 'fewer clicks. real buyers.'},
+  showExampleLabel: true,
+  hook: ['That $4.20', 'unit cost?', '[Wrong.]'],
+  quote: {label: 'SUPPLIER QUOTE', value: '$4.20', unit: '/ unit', slashAt: 0.1, tagAt: 1.2, tag: 'real cost: $?.??'},
+  sub: 'Same supplier · cost per unit (example)',
+  scaleMax: 6.64,
+  rows: [
+    {label: 'QUOTE ONLY', value: 4.20, running: (p: number) => `$${(4.20 * p).toFixed(2)}`, result: '✗ $2.44 short', good: false, tag: 'freight, duty and fees ignored'},
+    {label: 'QUOTE + SHIPPING', value: 5.55, running: (p: number) => `$${(5.55 * p).toFixed(2)}`, result: '✗ $1.09 short', good: false, tag: 'duty, platform + payment fees ignored'},
+    {label: 'FULL LANDED', value: 6.64, running: (p: number) => `$${(6.64 * p).toFixed(2)}`, result: '✓ $6.64 real', good: true, tag: 'product + ship + duty + fees + payment'},
   ],
-  funnel: [
-    {label: 'Hook', v: 78, val: '78', good: true},
-    {label: 'Body', v: 70, val: '70', good: true},
-    {label: 'Click', v: 88, val: 'CTR 3.8%', good: true},
-    {label: 'Conversion', v: 12, val: '0.6%', good: false},
-  ],
+  trackNote: 'cost per unit counted',
+  focusRow: 2, badge: '+58% VS THE QUOTE',
   captions: [
-    {at: 2.5, text: 'Most [clicks]…'}, {at: 3.0, text: 'Score the [funnel]'}, {at: 5.5, text: 'Verdict: [41]'},
-    {at: 7.5, text: 'The “boring” ad?'}, {at: 9.6, text: '[Hot] take:'}, {at: 11.6, text: 'Scale [buyers]'},
+    {at: 2.5, text: 'Same [supplier]'}, {at: 5.3, text: 'Two [guessed]'}, {at: 6.8, text: 'The [gap]'},
+    {at: 8.2, text: '[Hot] take:'}, {at: 10.4, text: 'The [real] number'},
   ],
-  debate: 'A funny ad that\ndoesn’t sell is\njust [content].',
-  payoff: {kicker: 'SALES PER 10,000 VIEWS', rows: [{n: 'Ad A · skit', v: '2.3', good: false}, {n: 'Ad B · demo', v: '5.7', good: true}], note: 'CTR × conversion'},
-  end: {line1: 'Score the funnel,', line2: 'not just the click.', product: 'Ad Creative Testing System', pillSize: 38},
-  t: {focus: 2.5, rows: 3.0, rowGap: 0.4, gauge: 5.5, flip: 7.5, debate: 9.6, payoff: 11.6, end: 13.0},
+  debate: '“Free shipping” from a\nsupplier is just shipping\n[in the price.]',
+  payoff: {kicker: 'LANDED COST PER UNIT', value: 6.64, prefix: '$', suffix: '', formula: '4.20 product + 1.35 shipping + 0.48 duty\n+ 0.40 fees + 0.21 payment fee', note: 'price from this, not the quote'},
+  end: {line1: 'Landed cost first.', line2: 'Then set the price.', product: 'Supplier Sourcing System', pillSize: 38},
+  t: {bars: 2.9, barGap: 0.7, results: 5.3, resultGap: 0.35, focus: 6.8, debate: 8.2, payoff: 10.4, end: 12.6},
 };
 // --------------------------------------------------------
 
-const px = (x: number, y: number): [number, number, number] => [x - 540, 960 - y, 0];
-const ROW0 = 560, ROW_GAP = 140;
+const TOP = [640, 900, 1160]; const LANE_H = 220; const TRACK_X = 106; const TRACK_W = 828;
 
-/** 3D score gauge: dim full track + coloured arc that fills to `score`, gently tilting. */
-const Gauge3D: React.FC<{cx: number; cy: number; score: number; fromS: number; color: string; r?: number}> = ({cx, cy, score, fromS, color, r = 250}) => {
-  const frame = useCurrentFrame(); const {fps} = useVideoConfig(); const t = frame / fps;
-  const p = easeOut((t - fromS) / 1.0);
-  const arc = Math.max(0.01, (Math.PI * 2 * score / 100) * p);
-  const [x, y] = px(cx, cy); const tilt: [number, number, number] = [0.32 * Math.sin(t * 1.1), 0.28 * Math.cos(t * 0.9), 0];
-  const pop = 1 + 0.06 * (1 - clamp((t - fromS - 1.0) / 0.3)) * (t > fromS + 1.0 ? 1 : 0);
+/** Hook visual: supplier quote card readable from frame 1; a red slash cuts through the price, then a "real cost?" tag pops. */
+const QuoteCard: React.FC<{t: number}> = ({t}) => {
+  const out = clamp((t - 2.2) / 0.3); if (out >= 1) return null;
+  const q = CONFIG.quote; const sl = easeOut((t - q.slashAt) / 0.25); const tg = t >= q.tagAt ? backOut((t - q.tagAt) / 0.3) : 0;
   return (
-    <group position={[x, y, -60]} rotation={tilt} scale={pop}>
-      <mesh><torusGeometry args={[r, 26, 20, 120]} /><meshStandardMaterial color="#2a2524" metalness={0.2} roughness={0.6} /></mesh>
-      <mesh rotation={[0, 0, Math.PI / 2 - arc]} position={[0, 0, 8]}>
-        <torusGeometry args={[r, 36, 24, 160, arc]} />
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.35} metalness={0.4} roughness={0.25} />
-      </mesh>
-    </group>
+    <div style={{position: 'absolute', inset: 0, zIndex: 20, opacity: 1 - out}}>
+      <div style={{position: 'absolute', left: 110, top: 620, width: 860, height: 480, borderRadius: 40, background: '#1c1918', border: `4px solid ${sl > 0.5 ? C.red : C.line}`,
+        boxShadow: sl > 0.5 ? '0 0 70px rgba(229,56,59,.35)' : '0 20px 40px rgba(0,0,0,.5)', textAlign: 'center'}}>
+        <div style={{position: 'absolute', left: 50, top: 46, fontSize: 36, fontWeight: 800, letterSpacing: 3, color: C.muted}}>{q.label}</div>
+        <div style={{position: 'absolute', right: 50, top: 40, fontSize: 32, fontWeight: 800, background: '#2a2524', padding: '6px 16px', borderRadius: 10, color: '#cfc7c1'}}>MOQ 500</div>
+        <div style={{position: 'absolute', left: 0, right: 0, top: 120, fontSize: 250, fontWeight: 900, letterSpacing: -10, lineHeight: 1, color: sl > 0.5 ? '#8a817c' : C.white}}>
+          <span style={{position: 'relative', display: 'inline-block'}}>{q.value}
+            <span style={{position: 'absolute', left: -20, top: '52%', height: 26, width: `${(100 + 12) * sl}%`, background: C.red, borderRadius: 13, transform: 'rotate(-10deg)',
+              transformOrigin: '0 50%', boxShadow: '0 0 30px rgba(229,56,59,.7)'}} /></span></div>
+        <div style={{position: 'absolute', left: 0, right: 0, top: 390, fontSize: 44, fontWeight: 700, color: '#cfc7c1'}}>{q.unit}</div>
+      </div>
+      {t >= q.tagAt && (
+        <div style={{position: 'absolute', left: 470, top: 1060, zIndex: 25, fontSize: 60, fontWeight: 900, color: C.bg, background: C.white, whiteSpace: 'nowrap',
+          borderRadius: 20, padding: '12px 30px', transform: `rotate(-5deg) scale(${tg})`, boxShadow: '0 20px 60px rgba(0,0,0,.6)'}}>{q.tag}</div>
+      )}
+    </div>
   );
 };
 
-const AdCard: React.FC<{ad: typeof CONFIG.ads[0]; x: number; y: number; w: number; h: number; o: number; s: number; hot?: boolean}> = ({ad, x, y, w, h, o, s, hot}) => (
-  <div style={{position: 'absolute', left: x, top: y, width: w, height: h, borderRadius: 32, background: C.panel, border: `4px solid ${hot ? C.red : C.line}`,
-    boxShadow: hot ? '0 0 60px rgba(229,56,59,.35)' : 'none', opacity: o, transform: `scale(${s})`, zIndex: 20, overflow: 'hidden'}}>
-    {/* fake ad thumbnail */}
-    <div style={{position: 'absolute', left: 24, right: 24, top: 24, height: h * 0.48, borderRadius: 20, background: hot ? 'linear-gradient(135deg,#3a1517,#171414)' : 'linear-gradient(135deg,#232020,#171414)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-      <div style={{width: 0, height: 0, borderTop: '34px solid transparent', borderBottom: '34px solid transparent', borderLeft: `56px solid ${C.white}`, opacity: 0.85, marginLeft: 12}} />
-    </div>
-    <div style={{position: 'absolute', left: 30, top: h * 0.48 + 44, fontSize: 40, fontWeight: 900}}>Ad {ad.id} · <span style={{color: '#b9b0aa'}}>{ad.name}</span></div>
-    <div style={{position: 'absolute', left: 30, top: h * 0.48 + 104, fontSize: 30, fontWeight: 800, letterSpacing: 2, color: C.muted}}>CTR</div>
-    <div style={{position: 'absolute', left: 30, top: h * 0.48 + 136, fontSize: 104, fontWeight: 900, letterSpacing: -4, lineHeight: 1, color: hot ? C.red : C.white}}>{ad.ctr}</div>
-  </div>
-);
-
 export const Daily: React.FC = () => {
   const frame = useCurrentFrame(); const {fps} = useVideoConfig(); const t = frame / fps; const T = CONFIG.t;
-  const [A, B] = CONFIG.ads;
-  // Phase 1 → 2: two cards, then Ad A punches in and shrinks to a header strip
-  const focus = easeOut((t - T.focus) / 0.4);
-  const toStrip = easeOut((t - T.rows) / 0.4);
-  const isB = t >= T.flip;
-  const lanes: Lane3D[] = CONFIG.funnel.map((r, i) => ({y: ROW0 + i * ROW_GAP + 96, fromX: 100, maxW: 520, value: r.v, scaleMax: 100,
-    startS: T.rows + 0.3 + i * T.rowGap, resultS: T.rows + 0.3 + 3 * T.rowGap + 0.6, good: r.good}));
-  const rowsOut = easeOut((t - T.gauge + 0.2) / 0.3);
-  const ad = isB ? B : A; const gFrom = isB ? T.flip + 0.3 : T.gauge + 0.1; const gColor = isB ? C.green : C.red;
-  const shownScore = Math.round(ad.score * easeOut((t - gFrom) / 1.0));
-  const verdictK = backOut((t - gFrom - 1.0) / 0.3);
-  const punch = t >= T.focus && t < T.rows ? 1 + 0.05 * Math.sin(clamp((t - T.focus) / 0.5) * Math.PI) : 1;
-  const flipFlash = isB ? 1 - clamp((t - T.flip) / 0.25) : 0;
+  const focus = t >= T.focus && t < T.debate;
+  const zoom = focus ? 1 + 0.07 * easeOut((t - T.focus) / 0.35) : (t < 2.5 ? 1 + 0.05 * easeOut((t - CONFIG.quote.slashAt - 0.25) / 0.4) : 1);
+  const out = t >= T.payoff ? easeOut((t - T.payoff) / 0.4) : 0;
+  const lanesIn = t >= 2.6;
+  const lanes3d: Lane3D[] = CONFIG.rows.map((r, i) => ({y: TOP[i] + LANE_H - 26 - 18, fromX: TRACK_X, maxW: TRACK_W, value: r.value, scaleMax: CONFIG.scaleMax,
+    startS: T.bars + i * T.barGap, resultS: T.results + i * T.resultGap, good: r.good}));
   return (
     <AbsoluteFill style={{background: C.bg, fontFamily: FONT, color: C.white}}>
-      <AbsoluteFill style={{transform: `scale(${punch})`, transformOrigin: '540px 900px'}}>
-        <ExampleLabel dim={t >= T.debate && t < T.payoff} />
-        <Canvas3D zIndex={1}><Drifters /></Canvas3D>
-        <Hook lines={CONFIG.hook} size={104} />
+      <AbsoluteFill style={{transform: `scale(${zoom})`, transformOrigin: focus ? '540px 1150px' : '540px 800px'}}>
+        {CONFIG.showExampleLabel && <ExampleLabel dim={t >= T.debate && t < T.payoff} />}
+        <Hook lines={CONFIG.hook} />
+        <QuoteCard t={t} />
         <BeatCaption beats={CONFIG.captions} until={T.end} />
-
-        {/* Phase 1: two ad cards, visible from frame 1 */}
-        {t < T.rows + 0.4 && (<>
-          <AdCard ad={A} x={70} y={700} w={430} h={560} hot o={1 - toStrip} s={(1 + 0.08 * focus) * (1 - 0.1 * toStrip)} />
-          <AdCard ad={B} x={550} y={700} w={430} h={560} o={(1 - 0.6 * focus) * (1 - toStrip)} s={1 - 0.06 * focus} />
-          {t < T.focus + 0.5 && <div style={{position: 'absolute', left: 300, top: 660, background: C.white, color: C.bg, fontSize: 36, fontWeight: 900, padding: '10px 22px', borderRadius: 16,
-            zIndex: 30, transform: `rotate(6deg) scale(${backOut((t - 0.4) / 0.3)})`, opacity: 1 - clamp((t - T.focus - 0.3) / 0.2)}}>most clicks</div>}
-        </>)}
-
-        {/* Header strip: which ad is being scored */}
-        {t >= T.rows && t < T.debate && (
-          <div style={{position: 'absolute', left: 70, top: 360, width: 900, height: 130, borderRadius: 26, zIndex: 22, background: isB ? '#10190f' : '#1f1112',
-            border: `4px solid ${isB ? C.green : C.red}`, display: 'flex', alignItems: 'center', padding: '0 34px', opacity: toStrip,
-            transform: `translateX(${isB ? (1 - easeOut((t - T.flip) / 0.35)) * 900 : 0}px) scale(${0.9 + 0.1 * toStrip})`}}>
-            <div style={{fontSize: 52, fontWeight: 900}}>Ad {ad.id} · <span style={{color: '#b9b0aa'}}>{ad.name}</span></div>
-            <div style={{marginLeft: 'auto', fontSize: 40, fontWeight: 800, color: C.muted}}>CTR <span style={{color: C.white, fontSize: 52, fontWeight: 900}}>{ad.ctr}</span></div>
-          </div>
-        )}
-
-        {/* Phase 2: funnel diagnosis rows + 3D bars */}
-        {t >= T.rows + 0.3 && rowsOut < 1 && (<>
-          {CONFIG.funnel.map((r, i) => {
-            const st = T.rows + 0.3 + i * T.rowGap; if (t < st) return null;
-            const k = backOut((t - st) / 0.3); const done = t >= lanes[0].resultS;
-            return (
-              <div key={i} style={{position: 'absolute', left: 70, top: ROW0 + i * ROW_GAP, width: 900, height: 124, borderRadius: 22, zIndex: 5,
-                background: done && !r.good ? '#1f1112' : C.panel, border: `3px solid ${done ? (r.good ? C.line : C.red) : C.line}`,
-                opacity: clamp((t - st) / 0.12) * (1 - rowsOut), transform: `translateX(${(1 - k) * 160}px) translateY(${rowsOut * -50}px)`}}>
-                <div style={{position: 'absolute', left: 30, top: 14, fontSize: 42, fontWeight: 900}}>{r.label}</div>
-                <div style={{position: 'absolute', right: 30, top: 28, fontSize: 52, fontWeight: 900, color: done ? (r.good ? C.green : C.red) : C.white}}>
-                  {r.val} {done ? (r.good ? '✓' : '✗') : ''}</div>
-              </div>
-            );
-          })}
-          {t >= lanes[0].resultS && <div style={{position: 'absolute', left: 70, top: ROW0 + 4 * ROW_GAP + 10, width: 900, textAlign: 'center', zIndex: 30,
-            transform: `scale(${backOut((t - lanes[0].resultS) / 0.3)})`, opacity: 1 - rowsOut}}>
-            <span style={{background: C.red, color: C.white, fontSize: 46, fontWeight: 900, padding: '14px 30px', borderRadius: 18}}>leak: after the click</span></div>}
-          <Canvas3D zIndex={10} opacity={1 - rowsOut}><Bars3D lanes={lanes.filter((l) => t >= l.startS)} /></Canvas3D>
-        </>)}
-
-        {/* Phase 3: 3D gauge → verdict (Ad A, then Ad B after the colour flip) */}
-        {t >= T.gauge && t < T.debate && (<>
-          <Canvas3D zIndex={12}><Gauge3D key={ad.id} cx={540} cy={860} score={ad.score} fromS={gFrom} color={gColor} /></Canvas3D>
-          <div style={{position: 'absolute', left: 0, width: 1080, top: 730, textAlign: 'center', zIndex: 24, opacity: clamp((t - T.gauge) / 0.15)}}>
-            <div style={{fontSize: 210, fontWeight: 900, letterSpacing: -8, lineHeight: 1, color: gColor, fontVariantNumeric: 'tabular-nums'}}>{shownScore}</div>
-            <div style={{fontSize: 40, fontWeight: 800, color: C.muted, marginTop: 4}}>/ 100</div>
-          </div>
-          {t >= gFrom + 1.0 && (
-            <div style={{position: 'absolute', left: 0, width: 1080, top: 1170, textAlign: 'center', zIndex: 26}}>
-              <div style={{display: 'inline-block', background: isB ? C.green : C.white, color: C.bg, fontSize: 84, fontWeight: 900, letterSpacing: 2, padding: '12px 46px', borderRadius: 22,
-                transform: `rotate(-3deg) scale(${1.6 - 0.6 * verdictK})`, opacity: clamp((t - gFrom - 1.0) / 0.08)}}>{ad.verdict}</div>
-              <div style={{fontSize: 42, fontWeight: 800, color: '#cfc7c1', marginTop: 26, opacity: clamp((t - gFrom - 1.2) / 0.2)}}>
-                conv. {ad.conv} · {ad.why}</div>
+        <div style={{position: 'absolute', left: 70, top: 470, width: 900, fontSize: 40, fontWeight: 600, color: '#b9b0aa', zIndex: 20,
+          opacity: t >= 2.6 && t < T.results ? clamp((t - 2.6) / 0.2) : 0}}>{CONFIG.sub}</div>
+        {lanesIn && CONFIG.rows.map((r, i) => {
+          const inK = backOut((t - 2.6 - i * 0.1) / 0.35);
+          const st = T.bars + i * T.barGap, rt = T.results + i * T.resultGap, p = easeOut((t - st) / 0.7), done = t >= rt;
+          const shake = done && !r.good ? Math.sin((t - rt) * 60) * 10 * (1 - clamp((t - rt) / 0.35)) : 0;
+          const dim = focus && i !== CONFIG.focusRow ? 0.35 : 1;
+          return (
+            <div key={i} style={{position: 'absolute', left: 70, top: TOP[i], width: 900, height: LANE_H, borderRadius: 28, zIndex: 5,
+              background: done ? (r.good ? '#101a13' : '#1f1112') : C.panel, border: `3px solid ${done ? (r.good ? C.green : C.red) : C.line}`,
+              boxShadow: done && r.good ? `0 0 ${40 + 20 * Math.sin(t * 6)}px rgba(94,227,143,.45)` : 'none',
+              opacity: (1 - out) * dim * clamp((t - 2.6 - i * 0.1) / 0.15), transform: `translateX(${shake + (1 - inK) * 160}px) translateY(${out * 120}px)`}}>
+              <div style={{position: 'absolute', left: 36, top: 30, fontSize: 48, fontWeight: 900, letterSpacing: -1}}>{r.label}</div>
+              <div style={{position: 'absolute', right: 36, top: 26, fontSize: 52, fontWeight: 800, fontVariantNumeric: 'tabular-nums',
+                color: done ? (r.good ? C.green : C.red) : C.white}}>{t < st ? '' : done ? r.result : r.running(p)}</div>
+              <div style={{position: 'absolute', left: 36, top: 100, fontSize: 32, fontWeight: 700, color: done ? '#cfc7c1' : C.muted}}>{done ? r.tag : CONFIG.trackNote}</div>
+              <div style={{position: 'absolute', left: 36, right: 36, bottom: 26, height: 36, borderRadius: 18, background: '#262120'}} />
             </div>
-          )}
-          {flipFlash > 0 && <div style={{position: 'absolute', inset: 0, background: C.green, opacity: 0.35 * flipFlash, zIndex: 35}} />}
-        </>)}
-
+          );
+        })}
+        <Canvas3D zIndex={10} opacity={1 - out}>
+          <Drifters />
+          <Bars3D lanes={lanes3d.filter((l) => t >= l.startS)} />
+        </Canvas3D>
+        {focus && t >= T.focus + 0.15 && (
+          <div style={{position: 'absolute', left: 140, top: 1088, zIndex: 30, fontSize: 44, fontWeight: 900, background: C.red, padding: '14px 26px', borderRadius: 16,
+            transform: `rotate(-4deg) scale(${backOut((t - T.focus - 0.15) / 0.25)})`, boxShadow: '0 0 50px rgba(229,56,59,.5)'}}>{CONFIG.badge}</div>
+        )}
         <CommentBubble text={CONFIG.debate} fromS={T.debate} toS={T.payoff} />
-
-        {/* Phase 4: payoff */}
         {t >= T.payoff + 0.1 && t < T.end && (<>
-          <Canvas3D zIndex={25}><PayoffRing cx={540} cy={880} fromS={T.payoff + 0.1} toS={T.end} r={370} /></Canvas3D>
-          <div style={{position: 'absolute', left: 70, top: 520, width: 900, height: 700, borderRadius: 36, background: 'rgba(16,26,19,.88)', border: `4px solid ${C.green}`,
-            boxShadow: '0 0 80px rgba(94,227,143,.35)', textAlign: 'center', paddingTop: 50, zIndex: 30, opacity: clamp((t - T.payoff - 0.1) / 0.2),
+          <Canvas3D zIndex={25}><PayoffRing cx={540} cy={880} fromS={T.payoff + 0.1} toS={T.end} r={360} /></Canvas3D>
+          <div style={{position: 'absolute', left: 70, top: 560, width: 900, height: 660, borderRadius: 36, background: 'rgba(16,26,19,.86)', border: `4px solid ${C.green}`,
+            boxShadow: '0 0 80px rgba(94,227,143,.35)', textAlign: 'center', paddingTop: 56, zIndex: 30, opacity: clamp((t - T.payoff - 0.1) / 0.2),
             transform: `scale(${0.9 + 0.1 * backOut((t - T.payoff - 0.1) / 0.3)})`}}>
-            <div style={{fontSize: 38, fontWeight: 800, letterSpacing: 4, color: C.green}}>{CONFIG.payoff.kicker}</div>
-            {CONFIG.payoff.rows.map((r, i) => {
-              const at = T.payoff + 0.3 + i * 0.5; if (t < at) return null;
-              const k = backOut((t - at) / 0.3);
-              return (
-                <div key={i} style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', margin: '26px 50px 0', transform: `scale(${0.8 + 0.2 * k})`, opacity: clamp((t - at) / 0.1)}}>
-                  <div style={{fontSize: 60, fontWeight: 900, color: r.good ? C.white : '#a39a95'}}>{r.n}</div>
-                  <div style={{fontSize: r.good ? 150 : 100, fontWeight: 900, letterSpacing: -5, color: r.good ? C.green : C.red, fontVariantNumeric: 'tabular-nums',
-                    textShadow: r.good ? '0 0 40px rgba(94,227,143,.45)' : 'none'}}>{r.v}</div>
-                </div>
-              );
-            })}
+            <div style={{fontSize: 42, fontWeight: 800, letterSpacing: 4, color: C.green}}>{CONFIG.payoff.kicker}</div>
+            <div style={{fontSize: 280, fontWeight: 900, letterSpacing: -10, lineHeight: 1, marginTop: 10, fontVariantNumeric: 'tabular-nums'}}>
+              {CONFIG.payoff.prefix}{(CONFIG.payoff.value * easeOut((t - T.payoff - 0.2) / 0.6)).toFixed(2)}<span style={{fontSize: 120, letterSpacing: -4}}>{CONFIG.payoff.suffix}</span></div>
+            <div style={{fontSize: 36, fontWeight: 700, color: '#cfc7c1', marginTop: 26, whiteSpace: 'pre-line', lineHeight: 1.35}}>{CONFIG.payoff.formula}</div>
             {t >= T.payoff + 1.0 && (
               <div style={{display: 'inline-block', marginTop: 30, background: '#0a0909', border: `3px solid ${C.green}`, borderRadius: 999, padding: '14px 34px',
                 fontSize: 40, fontWeight: 800, color: C.green, transform: `scale(${backOut((t - T.payoff - 1.0) / 0.3)})`}}>{CONFIG.payoff.note}</div>

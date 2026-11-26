@@ -5,16 +5,16 @@ import {Logo} from './components/Logo';
 
 const PIN = {
   example: true,
-  title: ['Most clicks ≠', 'your [best ad].'],
-  sub: 'Two ads, scored 0–100 on the whole funnel',
+  title: ['$4.20 quote ≠', 'your [unit cost].'],
+  sub: 'Same supplier, three ways to count cost per unit',
   rows: [
-    {label: 'Ad A · funny skit', value: '41 · ITERATE', note: 'CTR 3.8% · conversion 0.6% → 2.3 sales per 10k views', good: false},
-    {label: 'Ad B · plain demo', value: '84 · SCALE', note: 'CTR 1.4% · conversion 4.1% → 5.7 sales per 10k views', good: true},
-    {label: 'Funnel check', value: '4 stages', note: 'hook → body → click → conversion, each scored', good: true},
-    {label: 'Fix on Ad A', value: 'after the click', note: 'landing page + offer match, not the hook', good: false},
+    {label: 'Quote only', value: '$4.20 · ✗ $2.44 short', note: 'freight, duty and fees ignored', good: false},
+    {label: 'Quote + shipping', value: '$5.55 · ✗ $1.09 short', note: 'duty, platform + payment fees ignored', good: false},
+    {label: 'Full landed cost', value: '$6.64 · ✓', note: '4.20 + 1.35 ship + 0.48 duty + 0.40 fees + 0.21 pay', good: true},
+    {label: 'The gap', value: '+58%', note: 'landed cost vs the supplier quote', good: false},
   ],
-  box: {kicker: 'SALES PER 10,000 VIEWS', value: '5.7 vs 2.3', right: 'CTR × conversion\nscore the whole funnel'},
-  footer: 'Ad Creative Testing System · example figures',
+  box: {kicker: 'LANDED COST PER UNIT', value: '$6.64', right: 'compare suppliers on this\nprice from this, not the quote'},
+  footer: 'Supplier Sourcing System · example figures',
 };
 
 const red = (s: string) => s.split(/(\[[^\]]+\])/).map((p, i) => p.startsWith('[') ? <span key={i} style={{color: C.red}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>);
