@@ -5,16 +5,16 @@ import {Logo} from './components/Logo';
 
 const PIN = {
   example: true,
-  title: ['$4.20 quote ≠', 'your [unit cost].'],
-  sub: 'Same supplier, three ways to count cost per unit',
+  title: ['One refund', 'eats [3 sales].'],
+  sub: 'What a refunded $39.99 order really costs',
   rows: [
-    {label: 'Quote only', value: '$4.20 · ✗ $2.44 short', note: 'freight, duty and fees ignored', good: false},
-    {label: 'Quote + shipping', value: '$5.55 · ✗ $1.09 short', note: 'duty, platform + payment fees ignored', good: false},
-    {label: 'Full landed cost', value: '$6.64 · ✓', note: '4.20 + 1.35 ship + 0.48 duty + 0.40 fees + 0.21 pay', good: true},
-    {label: 'The gap', value: '+58%', note: 'landed cost vs the supplier quote', good: false},
+    {label: 'Product + shipping', value: '−$12.70', note: 'often not resellable once it comes back', good: false},
+    {label: 'Return label', value: '−$6.50', note: 'you usually pay the shipping back too', good: false},
+    {label: 'Fees not refunded', value: '−$1.46', note: 'payment fees often stay with the processor', good: false},
+    {label: 'Ad cost for that sale', value: '−$14.00', note: 'already spent to win the customer', good: false},
   ],
-  box: {kicker: 'LANDED COST PER UNIT', value: '$6.64', right: 'compare suppliers on this\nprice from this, not the quote'},
-  footer: 'Supplier Sourcing System · example figures',
+  box: {kicker: 'LOST PER REFUND', value: '−$34.66', right: '÷ $10.13 profit per sale\n= 3.4 sales to win back'},
+  footer: 'Ecom Command Center · example figures',
 };
 
 const red = (s: string) => s.split(/(\[[^\]]+\])/).map((p, i) => p.startsWith('[') ? <span key={i} style={{color: C.red}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>);
@@ -34,7 +34,7 @@ export const Pin: React.FC = () => (
     ))}
     <div style={{position: 'absolute', left: 60, top: 1015, width: 880, height: 240, borderRadius: 28, background: C.white, color: C.bg, padding: '34px 40px'}}>
       <div style={{fontSize: 34, fontWeight: 800, letterSpacing: 3, color: '#5c5552'}}>{PIN.box.kicker}</div>
-      <div style={{fontSize: 100, fontWeight: 900, letterSpacing: -4, lineHeight: 1.05}}>{PIN.box.value}</div>
+      <div style={{fontSize: 100, fontWeight: 900, letterSpacing: -4, lineHeight: 1.05, color: C.red}}>{PIN.box.value}</div>
       <div style={{position: 'absolute', right: 40, top: 96, fontSize: 34, fontWeight: 700, textAlign: 'right', color: '#5c5552', lineHeight: 1.3, whiteSpace: 'pre-line'}}>{PIN.box.right}</div>
     </div>
     <div style={{position: 'absolute', left: 60, right: 60, bottom: 60, borderTop: `2px solid ${C.line}`, paddingTop: 28, display: 'flex', alignItems: 'center', gap: 22}}>

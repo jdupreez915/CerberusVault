@@ -1,10 +1,9 @@
 /**
- * DAILY VIDEO — 2026-11-26 · format A (three rows) · Supplier Sourcing System.
- * Idea: a $4.20 supplier quote isn't your unit cost. Same supplier, three ways to count cost (example figures):
- *       quote only $4.20 (✗ $2.44 missing), quote + shipping $5.55 (✗ $1.09 missing), full landed $6.64 (✓).
- *       Landed = 4.20 product + 1.35 shipping + 0.48 duty + 0.40 fees + 0.21 payment fee = $6.64 (+58% vs quote).
- * Timeline (s): 0 hook + quote card · 0.35 red slash · 1.2 "real cost?" tag · 2.6 lanes · 2.9 bars grow (3D) · 5.3 results
- *               · 6.8 punch-in + badge · 8.2 debate bubble · 10.4 payoff ($6.64, 3D ring) · 12.6 end card · 15.0 end.
+ * DAILY VIDEO — 2026-11-27 · format B (maths breakdown) · Ecom Command Center.
+ * Idea (example figures): a refunded $39.99 order loses $12.70 product+ship + $6.50 return label + $1.46 fees not refunded
+ *       + $14.00 ad cost = −$34.66. Normal sale profit $10.13 → 3.4 sales to win it back. 10 sales: 0 refunds +$101.30, 1 refund +$56.51 (−44%).
+ * Timeline (s): 0 hook + order card · 0.9 REFUNDED stamp · 2.5 caption · 2.8–4.15 four loss rows + 3D bars · 5.0 = −$34.66
+ *               · 6.8 punch-in + $34.66 ÷ $10.13 = 3.4 · 8.4 debate bubble · 10.4 payoff (3D ring) · 12.6 end card · 15.0 end.
  */
 import {AbsoluteFill, useCurrentFrame, useVideoConfig} from 'remotion';
 import {C, FONT} from './brand';
@@ -20,111 +19,117 @@ export const DAILY_SECONDS = 15;
 
 // ---------------- CONFIG (edit per day) ----------------
 const CONFIG = {
-  showExampleLabel: true,
-  hook: ['That $4.20', 'unit cost?', '[Wrong.]'],
-  quote: {label: 'SUPPLIER QUOTE', value: '$4.20', unit: '/ unit', slashAt: 0.1, tagAt: 1.2, tag: 'real cost: $?.??'},
-  sub: 'Same supplier · cost per unit (example)',
-  scaleMax: 6.64,
+  hook: ['Shopify owners:', 'one refund eats', '[3 sales].'],
   rows: [
-    {label: 'QUOTE ONLY', value: 4.20, running: (p: number) => `$${(4.20 * p).toFixed(2)}`, result: '✗ $2.44 short', good: false, tag: 'freight, duty and fees ignored'},
-    {label: 'QUOTE + SHIPPING', value: 5.55, running: (p: number) => `$${(5.55 * p).toFixed(2)}`, result: '✗ $1.09 short', good: false, tag: 'duty, platform + payment fees ignored'},
-    {label: 'FULL LANDED', value: 6.64, running: (p: number) => `$${(6.64 * p).toFixed(2)}`, result: '✓ $6.64 real', good: true, tag: 'product + ship + duty + fees + payment'},
+    {label: 'Product + shipping', v: 12.70},
+    {label: 'Return label', v: 6.50},
+    {label: 'Fees not refunded', v: 1.46},
+    {label: 'Ad cost for that sale', v: 14.00},
   ],
-  trackNote: 'cost per unit counted',
-  focusRow: 2, badge: '+58% VS THE QUOTE',
+  lost: 34.66, profitPerSale: 10.13,
   captions: [
-    {at: 2.5, text: 'Same [supplier]'}, {at: 5.3, text: 'Two [guessed]'}, {at: 6.8, text: 'The [gap]'},
-    {at: 8.2, text: '[Hot] take:'}, {at: 10.4, text: 'The [real] number'},
+    {at: 2.5, text: 'What it [really] costs'}, {at: 5.0, text: 'You lose [$34.66]'}, {at: 6.8, text: 'Now [win it back]'},
+    {at: 8.4, text: '[Hot] take:'}, {at: 10.4, text: '1 in 10 [refunded]'},
   ],
-  debate: '“Free shipping” from a\nsupplier is just shipping\n[in the price.]',
-  payoff: {kicker: 'LANDED COST PER UNIT', value: 6.64, prefix: '$', suffix: '', formula: '4.20 product + 1.35 shipping + 0.48 duty\n+ 0.40 fees + 0.21 payment fee', note: 'price from this, not the quote'},
-  end: {line1: 'Landed cost first.', line2: 'Then set the price.', product: 'Supplier Sourcing System', pillSize: 38},
-  t: {bars: 2.9, barGap: 0.7, results: 5.3, resultGap: 0.35, focus: 6.8, debate: 8.2, payoff: 10.4, end: 12.6},
+  debate: '“Free returns” aren’t free.\nYour [next 3 customers]\npay for them.',
+  payoff: {kicker: '10 SALES OF $39.99', rows: [{n: '0 refunds', v: '+$101.30', good: true}, {n: '1 refund', v: '+$56.51', good: false}], note: 'one refund = −44% profit'},
+  end: {line1: 'Know what a refund', line2: 'really costs you.', product: 'Ecom Command Center', pillSize: 42},
+  t: {rows: 2.8, rowGap: 0.45, total: 5.0, flip: 6.8, debate: 8.4, payoff: 10.4, end: 12.6},
 };
 // --------------------------------------------------------
 
-const TOP = [640, 900, 1160]; const LANE_H = 220; const TRACK_X = 106; const TRACK_W = 828;
+const ROW0 = 480, ROW_H = 140, ROW_GAP = 155, BAR_X = 106, BAR_W = 560;
+const money = (v: number) => (v < 0 ? '−' : '') + '$' + Math.abs(v).toFixed(2);
 
-/** Hook visual: supplier quote card readable from frame 1; a red slash cuts through the price, then a "real cost?" tag pops. */
-const QuoteCard: React.FC<{t: number}> = ({t}) => {
+/** Hook visual: an order notification gets stamped REFUNDED at 0.9 s. Visible from frame 1. */
+const RefundCard: React.FC<{t: number}> = ({t}) => {
   const out = clamp((t - 2.2) / 0.3); if (out >= 1) return null;
-  const q = CONFIG.quote; const sl = easeOut((t - q.slashAt) / 0.25); const tg = t >= q.tagAt ? backOut((t - q.tagAt) / 0.3) : 0;
+  const hit = t >= 0.9; const st = hit ? backOut((t - 0.9) / 0.25) : 0;
+  const shake = hit && t < 1.3 ? 14 * Math.sin((t - 0.9) * 60) * (1 - (t - 0.9) / 0.4) : 0;
   return (
-    <div style={{position: 'absolute', inset: 0, zIndex: 20, opacity: 1 - out}}>
-      <div style={{position: 'absolute', left: 110, top: 620, width: 860, height: 480, borderRadius: 40, background: '#1c1918', border: `4px solid ${sl > 0.5 ? C.red : C.line}`,
-        boxShadow: sl > 0.5 ? '0 0 70px rgba(229,56,59,.35)' : '0 20px 40px rgba(0,0,0,.5)', textAlign: 'center'}}>
-        <div style={{position: 'absolute', left: 50, top: 46, fontSize: 36, fontWeight: 800, letterSpacing: 3, color: C.muted}}>{q.label}</div>
-        <div style={{position: 'absolute', right: 50, top: 40, fontSize: 32, fontWeight: 800, background: '#2a2524', padding: '6px 16px', borderRadius: 10, color: '#cfc7c1'}}>MOQ 500</div>
-        <div style={{position: 'absolute', left: 0, right: 0, top: 120, fontSize: 250, fontWeight: 900, letterSpacing: -10, lineHeight: 1, color: sl > 0.5 ? '#8a817c' : C.white}}>
-          <span style={{position: 'relative', display: 'inline-block'}}>{q.value}
-            <span style={{position: 'absolute', left: -20, top: '52%', height: 26, width: `${(100 + 12) * sl}%`, background: C.red, borderRadius: 13, transform: 'rotate(-10deg)',
-              transformOrigin: '0 50%', boxShadow: '0 0 30px rgba(229,56,59,.7)'}} /></span></div>
-        <div style={{position: 'absolute', left: 0, right: 0, top: 390, fontSize: 44, fontWeight: 700, color: '#cfc7c1'}}>{q.unit}</div>
+    <div style={{position: 'absolute', left: 70, top: 760, width: 900, zIndex: 20, opacity: 1 - out, transform: `translateY(${out * 40}px) translateX(${shake}px)`}}>
+      <div style={{borderRadius: 32, background: hit ? '#1f1112' : C.panel, border: `3px solid ${hit ? C.red : C.line}`, padding: '34px 40px'}}>
+        <div style={{fontSize: 32, fontWeight: 800, letterSpacing: 3, color: C.muted}}>ORDER #1047 · 1 ITEM</div>
+        <div style={{fontSize: 150, fontWeight: 900, letterSpacing: -6, lineHeight: 1.05, color: hit ? '#6f6764' : C.green, fontVariantNumeric: 'tabular-nums',
+          textDecoration: hit ? 'line-through' : 'none', textDecorationColor: C.red}}>$39.99</div>
+        <div style={{fontSize: 40, fontWeight: 800, color: hit ? C.red : C.white}}>{hit ? 'Refund issued' : 'Paid ✓'}</div>
       </div>
-      {t >= q.tagAt && (
-        <div style={{position: 'absolute', left: 470, top: 1060, zIndex: 25, fontSize: 60, fontWeight: 900, color: C.bg, background: C.white, whiteSpace: 'nowrap',
-          borderRadius: 20, padding: '12px 30px', transform: `rotate(-5deg) scale(${tg})`, boxShadow: '0 20px 60px rgba(0,0,0,.6)'}}>{q.tag}</div>
-      )}
+      {hit && <div style={{position: 'absolute', right: 30, top: 70, border: `8px solid ${C.red}`, color: C.red, borderRadius: 18, padding: '8px 26px', fontSize: 84, fontWeight: 900,
+        letterSpacing: 2, transform: `rotate(-12deg) scale(${2.2 - 1.2 * st})`, opacity: clamp((t - 0.9) / 0.08)}}>REFUNDED</div>}
     </div>
   );
 };
 
 export const Daily: React.FC = () => {
   const frame = useCurrentFrame(); const {fps} = useVideoConfig(); const t = frame / fps; const T = CONFIG.t;
-  const focus = t >= T.focus && t < T.debate;
-  const zoom = focus ? 1 + 0.07 * easeOut((t - T.focus) / 0.35) : (t < 2.5 ? 1 + 0.05 * easeOut((t - CONFIG.quote.slashAt - 0.25) / 0.4) : 1);
-  const out = t >= T.payoff ? easeOut((t - T.payoff) / 0.4) : 0;
-  const lanesIn = t >= 2.6;
-  const lanes3d: Lane3D[] = CONFIG.rows.map((r, i) => ({y: TOP[i] + LANE_H - 26 - 18, fromX: TRACK_X, maxW: TRACK_W, value: r.value, scaleMax: CONFIG.scaleMax,
-    startS: T.bars + i * T.barGap, resultS: T.results + i * T.resultGap, good: r.good}));
+  const flipped = t >= T.flip;
+  const zoom = flipped && t < T.debate ? 1 + 0.08 * easeOut((t - T.flip) / 0.35) : 1;
+  const rowsOut = flipped ? easeOut((t - T.flip - 0.5) / 0.35) : 0;
+  const lanes: Lane3D[] = CONFIG.rows.map((r, i) => ({y: ROW0 + i * ROW_GAP + 108, fromX: BAR_X, maxW: BAR_W, value: r.v, scaleMax: 30,
+    startS: T.rows + i * T.rowGap + 0.1, resultS: T.total, good: false}));
+  const shown = CONFIG.rows.reduce((a, r, i) => a + (t >= T.rows + i * T.rowGap + 0.2 ? -r.v : 0), 0);
+  const slam = t >= T.flip + 0.55 ? backOut((t - T.flip - 0.55) / 0.3) : 0;
   return (
     <AbsoluteFill style={{background: C.bg, fontFamily: FONT, color: C.white}}>
-      <AbsoluteFill style={{transform: `scale(${zoom})`, transformOrigin: focus ? '540px 1150px' : '540px 800px'}}>
-        {CONFIG.showExampleLabel && <ExampleLabel dim={t >= T.debate && t < T.payoff} />}
+      <AbsoluteFill style={{transform: `scale(${zoom})`, transformOrigin: '540px 900px'}}>
+        <ExampleLabel dim={t >= T.debate && t < T.payoff} />
         <Hook lines={CONFIG.hook} />
-        <QuoteCard t={t} />
+        <RefundCard t={t} />
         <BeatCaption beats={CONFIG.captions} until={T.end} />
-        <div style={{position: 'absolute', left: 70, top: 470, width: 900, fontSize: 40, fontWeight: 600, color: '#b9b0aa', zIndex: 20,
-          opacity: t >= 2.6 && t < T.results ? clamp((t - 2.6) / 0.2) : 0}}>{CONFIG.sub}</div>
-        {lanesIn && CONFIG.rows.map((r, i) => {
-          const inK = backOut((t - 2.6 - i * 0.1) / 0.35);
-          const st = T.bars + i * T.barGap, rt = T.results + i * T.resultGap, p = easeOut((t - st) / 0.7), done = t >= rt;
-          const shake = done && !r.good ? Math.sin((t - rt) * 60) * 10 * (1 - clamp((t - rt) / 0.35)) : 0;
-          const dim = focus && i !== CONFIG.focusRow ? 0.35 : 1;
+        {t >= T.rows && rowsOut < 1 && CONFIG.rows.map((r, i) => {
+          const st = T.rows + i * T.rowGap; if (t < st) return null;
+          const k = backOut((t - st) / 0.3);
+          const col = t >= T.total ? C.red : C.white;
           return (
-            <div key={i} style={{position: 'absolute', left: 70, top: TOP[i], width: 900, height: LANE_H, borderRadius: 28, zIndex: 5,
-              background: done ? (r.good ? '#101a13' : '#1f1112') : C.panel, border: `3px solid ${done ? (r.good ? C.green : C.red) : C.line}`,
-              boxShadow: done && r.good ? `0 0 ${40 + 20 * Math.sin(t * 6)}px rgba(94,227,143,.45)` : 'none',
-              opacity: (1 - out) * dim * clamp((t - 2.6 - i * 0.1) / 0.15), transform: `translateX(${shake + (1 - inK) * 160}px) translateY(${out * 120}px)`}}>
-              <div style={{position: 'absolute', left: 36, top: 30, fontSize: 48, fontWeight: 900, letterSpacing: -1}}>{r.label}</div>
-              <div style={{position: 'absolute', right: 36, top: 26, fontSize: 52, fontWeight: 800, fontVariantNumeric: 'tabular-nums',
-                color: done ? (r.good ? C.green : C.red) : C.white}}>{t < st ? '' : done ? r.result : r.running(p)}</div>
-              <div style={{position: 'absolute', left: 36, top: 100, fontSize: 32, fontWeight: 700, color: done ? '#cfc7c1' : C.muted}}>{done ? r.tag : CONFIG.trackNote}</div>
-              <div style={{position: 'absolute', left: 36, right: 36, bottom: 26, height: 36, borderRadius: 18, background: '#262120'}} />
+            <div key={i} style={{position: 'absolute', left: 70, top: ROW0 + i * ROW_GAP, width: 900, height: ROW_H, borderRadius: 24, zIndex: 5,
+              background: flipped ? '#1f1112' : C.panel, border: `3px solid ${flipped ? C.red : C.line}`,
+              opacity: clamp((t - st) / 0.12) * (1 - rowsOut), transform: `translateX(${(1 - k) * 180}px) translateY(${rowsOut * -60}px)`}}>
+              <div style={{position: 'absolute', left: 30, top: 16, fontSize: 44, fontWeight: 900, letterSpacing: -1}}>{r.label}</div>
+              <div style={{position: 'absolute', right: 30, top: 34, fontSize: 58, fontWeight: 900, color: col, fontVariantNumeric: 'tabular-nums'}}>{money(-r.v)}</div>
             </div>
           );
         })}
-        <Canvas3D zIndex={10} opacity={1 - out}>
+        {t >= T.rows + 0.2 && rowsOut < 1 && (
+          <div style={{position: 'absolute', left: 70, top: ROW0 + 4 * ROW_GAP + 10, width: 900, height: 130, borderRadius: 24, zIndex: 5, background: t >= T.total ? C.red : 'transparent',
+            color: C.white, border: `3px dashed ${t >= T.total ? C.red : C.line}`, display: 'flex', alignItems: 'center', padding: '0 30px',
+            opacity: 1 - rowsOut, transform: `scale(${t >= T.total ? 1 + 0.06 * (1 - clamp((t - T.total) / 0.3)) : 1})`}}>
+            <div style={{fontSize: 44, fontWeight: 900}}>= lost per refund</div>
+            <div style={{marginLeft: 'auto', fontSize: 76, fontWeight: 900, fontVariantNumeric: 'tabular-nums'}}>{money(t >= T.total ? -CONFIG.lost : shown)}</div>
+          </div>
+        )}
+        {rowsOut < 1 && <Canvas3D zIndex={10} opacity={1 - rowsOut}>
           <Drifters />
-          <Bars3D lanes={lanes3d.filter((l) => t >= l.startS)} />
-        </Canvas3D>
-        {focus && t >= T.focus + 0.15 && (
-          <div style={{position: 'absolute', left: 140, top: 1088, zIndex: 30, fontSize: 44, fontWeight: 900, background: C.red, padding: '14px 26px', borderRadius: 16,
-            transform: `rotate(-4deg) scale(${backOut((t - T.focus - 0.15) / 0.25)})`, boxShadow: '0 0 50px rgba(229,56,59,.5)'}}>{CONFIG.badge}</div>
+          <Bars3D lanes={lanes.filter((l) => t >= l.startS)} />
+        </Canvas3D>}
+        {t >= T.flip + 0.55 && t < T.debate && (
+          <div style={{position: 'absolute', left: 70, top: 540, width: 900, textAlign: 'center', zIndex: 30, opacity: clamp((t - T.flip - 0.55) / 0.1)}}>
+            <div style={{fontSize: 92, fontWeight: 900, letterSpacing: -2, color: '#cfc7c1'}}>$34.66 ÷ $10.13</div>
+            <div style={{fontSize: 290, fontWeight: 900, letterSpacing: -12, lineHeight: 1, color: C.red, marginTop: 10, transform: `scale(${2 - slam})`, textShadow: '0 0 60px rgba(229,56,59,.5)'}}>3.4</div>
+            {t >= T.flip + 1.0 && <div style={{display: 'inline-block', marginTop: 40, fontSize: 46, fontWeight: 900, background: C.white, color: C.bg, padding: '14px 28px', borderRadius: 16,
+              transform: `rotate(-3deg) scale(${backOut((t - T.flip - 1.0) / 0.25)})`}}>sales just to win it back</div>}
+          </div>
         )}
         <CommentBubble text={CONFIG.debate} fromS={T.debate} toS={T.payoff} />
         {t >= T.payoff + 0.1 && t < T.end && (<>
-          <Canvas3D zIndex={25}><PayoffRing cx={540} cy={880} fromS={T.payoff + 0.1} toS={T.end} r={360} /></Canvas3D>
-          <div style={{position: 'absolute', left: 70, top: 560, width: 900, height: 660, borderRadius: 36, background: 'rgba(16,26,19,.86)', border: `4px solid ${C.green}`,
-            boxShadow: '0 0 80px rgba(94,227,143,.35)', textAlign: 'center', paddingTop: 56, zIndex: 30, opacity: clamp((t - T.payoff - 0.1) / 0.2),
+          <Canvas3D zIndex={25}><PayoffRing cx={540} cy={870} fromS={T.payoff + 0.1} toS={T.end} r={360} /></Canvas3D>
+          <div style={{position: 'absolute', left: 70, top: 520, width: 900, height: 700, borderRadius: 36, background: 'rgba(16,26,19,.88)', border: `4px solid ${C.green}`,
+            boxShadow: '0 0 80px rgba(94,227,143,.35)', textAlign: 'center', paddingTop: 50, zIndex: 30, opacity: clamp((t - T.payoff - 0.1) / 0.2),
             transform: `scale(${0.9 + 0.1 * backOut((t - T.payoff - 0.1) / 0.3)})`}}>
-            <div style={{fontSize: 42, fontWeight: 800, letterSpacing: 4, color: C.green}}>{CONFIG.payoff.kicker}</div>
-            <div style={{fontSize: 280, fontWeight: 900, letterSpacing: -10, lineHeight: 1, marginTop: 10, fontVariantNumeric: 'tabular-nums'}}>
-              {CONFIG.payoff.prefix}{(CONFIG.payoff.value * easeOut((t - T.payoff - 0.2) / 0.6)).toFixed(2)}<span style={{fontSize: 120, letterSpacing: -4}}>{CONFIG.payoff.suffix}</span></div>
-            <div style={{fontSize: 36, fontWeight: 700, color: '#cfc7c1', marginTop: 26, whiteSpace: 'pre-line', lineHeight: 1.35}}>{CONFIG.payoff.formula}</div>
-            {t >= T.payoff + 1.0 && (
-              <div style={{display: 'inline-block', marginTop: 30, background: '#0a0909', border: `3px solid ${C.green}`, borderRadius: 999, padding: '14px 34px',
-                fontSize: 40, fontWeight: 800, color: C.green, transform: `scale(${backOut((t - T.payoff - 1.0) / 0.3)})`}}>{CONFIG.payoff.note}</div>
+            <div style={{fontSize: 38, fontWeight: 800, letterSpacing: 4, color: C.green}}>{CONFIG.payoff.kicker}</div>
+            {CONFIG.payoff.rows.map((r, i) => {
+              const at = T.payoff + 0.3 + i * 0.6; if (t < at) return null;
+              const k = backOut((t - at) / 0.3);
+              return (
+                <div key={i} style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', margin: '26px 50px 0', transform: `scale(${0.8 + 0.2 * k})`, opacity: clamp((t - at) / 0.1)}}>
+                  <div style={{fontSize: 60, fontWeight: 900, color: C.white, whiteSpace: 'nowrap'}}>{r.n}</div>
+                  <div style={{fontSize: 104, fontWeight: 900, letterSpacing: -4, color: r.good ? C.green : C.red, fontVariantNumeric: 'tabular-nums',
+                    textShadow: r.good ? '0 0 40px rgba(94,227,143,.45)' : 'none'}}>{r.v}</div>
+                </div>
+              );
+            })}
+            {t >= T.payoff + 1.3 && (
+              <div style={{display: 'inline-block', marginTop: 34, background: '#0a0909', border: `3px solid ${C.red}`, borderRadius: 999, padding: '14px 34px',
+                fontSize: 42, fontWeight: 800, color: C.red, transform: `scale(${backOut((t - T.payoff - 1.3) / 0.3)})`}}>{CONFIG.payoff.note}</div>
             )}
           </div>
         </>)}

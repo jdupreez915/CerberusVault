@@ -281,5 +281,19 @@
       "social/2026-11-26/cover.jpg",
       "social/2026-11-26/pin.jpg"
     ]
+  },
+  {
+    "date": "2026-11-27",
+    "format": "B",
+    "product": "ecom-command-center",
+    "hook": "Shopify owners: one refund eats 3 sales.",
+    "hook_type": "identity call-out",
+    "debate_line": "“Free returns” aren’t free. Your next 3 customers pay for them.",
+    "trend_pattern": "trend check skipped (vidIQ out of credits); used a stamped-notification pattern interrupt + running-total maths",
+    "files": [
+      "social/2026-11-27/video.mp4",
+      "social/2026-11-27/cover.jpg",
+      "social/2026-11-27/pin.jpg"
+    ]
   }
 ]
