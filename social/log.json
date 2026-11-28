@@ -295,5 +295,19 @@
       "social/2026-11-27/cover.jpg",
       "social/2026-11-27/pin.jpg"
     ]
+  },
+  {
+    "date": "2026-11-28",
+    "format": "C",
+    "product": "store-profit-os",
+    "hook": "$10.13 → $14.80 per order. Same product.",
+    "hook_type": "answer-first/curiosity",
+    "debate_line": "Cheaper ads won’t fix a cheap price.",
+    "trend_pattern": "trend check skipped (vidIQ out of credits)",
+    "files": [
+      "social/2026-11-28/video.mp4",
+      "social/2026-11-28/cover.jpg",
+      "social/2026-11-28/pin.jpg"
+    ]
   }
 ]
